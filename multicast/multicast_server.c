@@ -42,7 +42,7 @@ int main()
 	while (1) {
 		printf("send message to client: %s\n", buf);
 		sleep(2);
-        sendto(sockfd, buf, strlen(buf) + 1, 0, (struct sockaddr *)&grpaddr, sizeof(grpaddr));
+		sendto(sockfd, buf, strlen(buf) + 1, 0, (struct sockaddr *)&grpaddr, sizeof(grpaddr));
 	}
 
 	close(sockfd);

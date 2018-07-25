@@ -28,9 +28,8 @@ int main()
 		exit(-1);
 	}
 
-    mreq.imr_multiaddr.s_addr = inet_addr(GRP_ADDR);
-    mreq.imr_interface.s_addr = inet_addr(CLT_ADDR);
-    //mreq.imr_interface.s_addr = htonl(INADDR_ANY);
+	mreq.imr_multiaddr.s_addr = inet_addr(GRP_ADDR);
+	mreq.imr_interface.s_addr = inet_addr(CLT_ADDR);
 
 	if (setsockopt(sockfd, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq)) < 0) {
 		perror("setsockopt");
@@ -53,7 +52,7 @@ int main()
 		
 		if (msg_size == -1) {
 			perror("recvfrom");
-	        exit(-1);
+			exit(-1);
 		} else
 			printf("%s\n", msg);
 	}

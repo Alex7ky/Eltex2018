@@ -16,20 +16,20 @@ int main()
 	int                sockfd;
 	struct sockaddr_in servaddr;
 	char               buf[MSG_MAXLEN];
-    int                broadcastEnable;
+	int                broadcastEnable;
 
 	sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
 	if (sockfd == -1) {
-        	perror("socket");
-        	exit(-1);
+			perror("socket");
+			exit(-1);
 	}
 
 	broadcastEnable = 1;
 
 	if (setsockopt(sockfd, SOL_SOCKET, SO_BROADCAST, &broadcastEnable, sizeof(broadcastEnable)) == -1) {
 		perror("setsockopt");
-        exit(-1);
+		exit(-1);
 	}
 
 	bzero(&servaddr, sizeof(servaddr));
@@ -41,9 +41,9 @@ int main()
 	strcpy(buf, "Hello");
 
 	while (1) {
-        	printf("send message to client: %s\n", buf);
-        	sleep(2);
-        	sendto(sockfd, buf, strlen(buf)+1, 0, (struct sockaddr *)&servaddr, sizeof(servaddr));
+			printf("send message to client: %s\n", buf);
+			sleep(2);
+			sendto(sockfd, buf, strlen(buf)+1, 0, (struct sockaddr *)&servaddr, sizeof(servaddr));
 	}
 
 	close(sockfd);

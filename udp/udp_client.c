@@ -23,25 +23,25 @@ int main(int argc, char *argv[])
 	struct hostent *host = gethostbyname(argv[1]);
 
 	if (host == NULL) {
-        fprintf(stderr, "[ERROR #2] Invalid address (Server IP)\n");
+		fprintf(stderr, "[ERROR #2] Invalid address (Server IP)\n");
 
-        return EXIT_FAILURE;
-    }
+		return EXIT_FAILURE;
+	}
 
-    int server_port = atoi(argv[2]);
+	int server_port = atoi(argv[2]);
 
-    if (server_port <= 0) {
-        fprintf(stderr, "[ERROR #3] Invalid host port number\n");
+	if (server_port <= 0) {
+		fprintf(stderr, "[ERROR #3] Invalid host port number\n");
 
-        return EXIT_FAILURE;
-    }
+		return EXIT_FAILURE;
+	}
 
-    int udp_socket_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	int udp_socket_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
 	if (udp_socket_fd == -1) {
 		fprintf(stderr, "[ERROR #4] Failed to create socket: %s\n", strerror(errno));
 
-        return EXIT_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	socklen_t sockaddr_size = sizeof(struct sockaddr);
@@ -54,46 +54,46 @@ int main(int argc, char *argv[])
 	server_address.sin_port = htons(server_port);
 
 	char input_buffer[BUFFER_SIZE] = {0};
-    char output_buffer[BUFFER_SIZE] = {0};
+	char output_buffer[BUFFER_SIZE] = {0};
 
-    do {
-        bzero(input_buffer, BUFFER_SIZE);
+	do {
+		bzero(input_buffer, BUFFER_SIZE);
 
-        fprintf(stdout, "> ");
+		fprintf(stdout, "> ");
 
-        fgets(output_buffer, BUFFER_SIZE, stdin);
+		fgets(output_buffer, BUFFER_SIZE, stdin);
 
-        output_buffer[strlen(output_buffer) - 1] = 0;
+		output_buffer[strlen(output_buffer) - 1] = 0;
 
-        if (sendto(udp_socket_fd, output_buffer, strlen(output_buffer) + 1, 
-                0, (struct sockaddr *)(&server_address), sockaddr_size) == -1 ) {
-            fprintf(stderr, "[ERROR #5] Failed sending message: %s\n", strerror(errno));
-            break;
-        }
+		if (sendto(udp_socket_fd, output_buffer, strlen(output_buffer) + 1, 
+				0, (struct sockaddr *)(&server_address), sockaddr_size) == -1 ) {
+			fprintf(stderr, "[ERROR #5] Failed sending message: %s\n", strerror(errno));
+			break;
+		}
 
-        // Stop sending message to server
-        if (strcmp("STOP", output_buffer) == 0) {
-            break;
-        }
+		// Stop sending message to server
+		if (strcmp("STOP", output_buffer) == 0) {
+			break;
+		}
 
-        // Receive a message from client
-        int read_bytes = recvfrom(udp_socket_fd, input_buffer, BUFFER_SIZE, 
-                            0, (struct sockaddr *)(&server_address), &sockaddr_size);
-        if (read_bytes < 0) {
-            fprintf(stderr, "[ERROR #6] Failed receiving message", strerror(errno));
-            
-            break;
-        }
+		// Receive a message from client
+		int read_bytes = recvfrom(udp_socket_fd, input_buffer, BUFFER_SIZE, 
+							0, (struct sockaddr *)(&server_address), &sockaddr_size);
+		if (read_bytes < 0) {
+			fprintf(stderr, "[ERROR #6] Failed receiving message", strerror(errno));
+			
+			break;
+		}
 
-        fprintf(stdout, "[INFO #1] Received a message from server: %s\n", input_buffer);
-    } while (1);
+		fprintf(stdout, "[INFO #1] Received a message from server: %s\n", input_buffer);
+	} while (1);
 
 
-    if (close(udp_socket_fd) == -1) {
-    	fprintf(stderr, "[ERROR #7] Failed to close socket: %s\n", strerror(errno));
+	if (close(udp_socket_fd) == -1) {
+		fprintf(stderr, "[ERROR #7] Failed to close socket: %s\n", strerror(errno));
 
-        return EXIT_FAILURE;
-    }
+		return EXIT_FAILURE;
+	}
 
-    return EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 }

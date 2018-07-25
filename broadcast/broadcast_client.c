@@ -23,8 +23,8 @@ int main()
 	sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
 	if (sockfd == -1) {
-        	perror("socket");
-        	exit(-1);
+			perror("socket");
+			exit(-1);
 	}
 
 	bzero(&servaddr, sizeof(servaddr));
@@ -34,8 +34,8 @@ int main()
 	servaddr.sin_port = htons(SRV_PORT);
 
 	if (bind(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) == -1) {
-    	perror("bind");
-    	exit(-1);
+		perror("bind");
+		exit(-1);
 	}
 
 	addr_size = sizeof(servaddr);
@@ -45,7 +45,7 @@ int main()
 		msg_size = recvfrom(sockfd, msg, MSG_MAXLEN, 0, (struct sockaddr *)&servaddr, &addr_size);
 		if (msg_size == -1) {
 			perror("recvfrom");
-	        	exit(-1);
+			exit(-1);
 		} else
 			printf("%s\n", msg);
 	}
