@@ -36,7 +36,7 @@ uint16_t create_packet_eth_ip_udp(char *buffer) {
 	bootp_hdr.htype     = 0x01;
 	bootp_hdr.hlen      = 6;
 	bootp_hdr.hops      = 0;
-	bootp_hdr.xid       = 0; //нужно инициализировать
+	bootp_hdr.xid       = 0; 
 	bootp_hdr.secs      = 0;
 	bootp_hdr.flags     = 0;
 	bootp_hdr.client_ip = 0;
@@ -79,7 +79,7 @@ uint16_t create_packet_eth_ip_udp(char *buffer) {
 	bootp_hdr.exten[8] = 0x07;
 	bootp_hdr.exten[9] = 0x01;
 	
-	bootp_hdr.exten[10]  = SR_MAC0;
+	bootp_hdr.exten[10] = SR_MAC0;
 	bootp_hdr.exten[11] = SR_MAC1;
 	bootp_hdr.exten[12] = SR_MAC2; 
 	bootp_hdr.exten[13] = SR_MAC3; 
@@ -92,41 +92,9 @@ uint16_t create_packet_eth_ip_udp(char *buffer) {
 	bootp_hdr.exten[18] = 0x05;
 	bootp_hdr.exten[19] = 0xdc;
 
-	// Vendor class identifier
-	bootp_hdr.exten[20] = 0x3c;
-	bootp_hdr.exten[21] = 0x12;
-
-	for (int i = 0; i < 18; i++) 
-		bootp_hdr.exten[22 + i] = 0;
-	
-	// Parameter Request List
-	bootp_hdr.exten[40] = 0x37;
-	// Length: 10
-	bootp_hdr.exten[41] = 0x0a;
-
-	// Subnet Mask
-	bootp_hdr.exten[42] = 0x01;
-    // Router
-	bootp_hdr.exten[43] = 0x03;
-    // Domain Name Server
-	bootp_hdr.exten[44] = 0x06;
-    // Domain Name
-	bootp_hdr.exten[45] = 0x0f;
-    // Interface MTU
-	bootp_hdr.exten[46] = 0x1a;
-    // Broadcast Address
-	bootp_hdr.exten[47] = 0x1c;
-    // IP Address Lease Time
-    bootp_hdr.exten[48] = 0x33;
-	// Renewal Time Value
-    bootp_hdr.exten[49] = 0x3a;
-	// Rebinding Time Value
-    bootp_hdr.exten[50] = 0x3b;
-	// Vendor-Specific Information
-	bootp_hdr.exten[51] = 0x2b;
-	
-	bootp_hdr.exten[52] = 0xff;
-	bootp_hdr.exten[53] = 0x00;
+	// END hdr
+	bootp_hdr.exten[62] = 0xff;
+	bootp_hdr.exten[63] = 0x00;
 	
 	udp_size = sizeof(udp_hdr) + sizeof(bootp_hdr);
 	udp_hdr.source_port = htons(SOUR_PORT);

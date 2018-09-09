@@ -22,12 +22,12 @@
 #define DS_MAC4	0xff
 #define DS_MAC5	0xff
 
-#define SR_MAC0	0x04
-#define SR_MAC1	0xb1
-#define SR_MAC2	0x67
-#define SR_MAC3	0x1a
-#define SR_MAC4	0xc9
-#define SR_MAC5	0xa0
+#define SR_MAC0	0x00
+#define SR_MAC1	0x00
+#define SR_MAC2	0x00
+#define SR_MAC3	0x00
+#define SR_MAC4	0x00
+#define SR_MAC5	0x00
 
 #define SOUR_PORT 68
 #define DEST_PORT 67
